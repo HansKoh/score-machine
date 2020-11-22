@@ -120,5 +120,8 @@
       }
     }
   },
-  "defaultProject": "ScoreMachine"
+  "defaultProject": "ScoreMachine",
+  "cli": {
+    "analytics": false
+  }
 }

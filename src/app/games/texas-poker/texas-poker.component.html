@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="row" *ngIf="players.length != 0">
+    <div class="col-lg">
+      <div class="input-group input-group-lg mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-lg">Total Chip Value</span>
+        </div>
+        <input type="number" class="form-control text-center" aria-label="Total Chip Value" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="totalChipValue" (keyup)="updateSingleChipValue()"/>
+      </div>
+    </div>
+    <div class="col-lg">
+      <div class="input-group input-group-lg mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-lg">Total Chips</span>
+        </div>
+        <input type="number" class="form-control text-center" aria-label="Total Chips" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="totalChips" (keyup)="updateSingleChipValue()"/>
+      </div>
+    </div>
+    <div class="col-lg">
+      <div class="input-group input-group-lg mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-lg">Single Chip Value</span>
+        </div>
+        <div class="form-control text-center" aria-label="Single Chip Value" aria-describedby="inputGroup-sizing-lg">{{ singleChipValue }}</div>
+      </div>
+    </div>
+  </div>
+  
+  <hr/>
+
+  <div class="row text-center" [ngClass]="{'start': players.length === 0, 'started': players.length>0}">
+    <div>
+      <button type="button" class="btn btn-success addPlayer" data-toggle="modal" data-target="#addPlayer" data-whatever="@mdo">
+        {{ players.length === 0 ? "Start the Game" : "Add Player" }}
+      </button>
+    </div>
+    &nbsp;
+    <div *ngIf="players.length != 0">
+      <button class="btn btn-danger" (click)="onClearAllPlayers()">Clear Players</button>
+    </div>
+  </div>
+
+  <hr/>
+
+  <div class="row" style="justify-content: space-around;">
+    <app-player *ngFor="let player of players; let i=index" 
+                [player]="player"
+                [totalChipValue]="totalChipValue"
+                [totalChips]="totalChips"
+                [singleChipValue]="singleChipValue">
+    </app-player>
+  </div>
+
+  <!-- <hr/>
+  <div class="row">
+    <div class="col">Final Balance</div>
+    <div class="col">{{  }}</div>
+  </div> -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="addPlayer" tabindex="-1" role="dialog" aria-labelledby="addPlayerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addPlayerLabel">New Player Information</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #f="ngForm">
+            <div class="form-group">
+              <label for="player-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="player-name" name="name" ngModel required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onSubmit(f)" [disabled]="!f.valid">Add</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

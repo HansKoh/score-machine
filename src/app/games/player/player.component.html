@@ -1,0 +1,76 @@
+<div class="col-md playerCardContainer mb-4">
+  <div class="card playerCard" style="width: 21rem;">
+    <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrXJnNUPosezMcHk1fHYYYl1X4or2x0a6Wog&usqp=CAU" alt="Card image cap">
+    <div class="card-body p-2">
+      <h5 class="card-title text-center">{{ player.name }}</h5>
+      <hr/>
+      <div class="container text-left">
+        <div class="row mb-3">
+          <div class="col">Start</div>
+          <div class="col text-center">{{ totalChips }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">Buyin</div>
+          <div class="col">
+            <div class="row">
+              <button type="button" class="col btn btn-outline-dark" style="border-radius: 50%;" (click)="onDecreaseBuyin()">-</button>
+              <div class="col-5 form-control text-center ml-1 mr-1">{{ player.buyin }}</div>
+              <button type="button" class=" col btn btn-outline-dark" style="border-radius: 50%;" (click)="onIncreaseBuyin()">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">Remaining</div>
+          <div class="col">
+            <div class="row">
+              <input type="number" class="col form-control text-center mr-1" [(ngModel)]="remaining" (keyup)="onUpdateFinal()"/>
+              <button class="col btn btn-outline-dark" (click)="onBill()">Bill</button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">Final</div>
+          <div class="col">
+            <div class="row">
+              <div class="col form-control text-center mr-1">{{ finalChipValue }}</div>
+              <div class="col form-control text-center" [ngClass]="{'won':hasWon > 0,'lose':hasWon < 0 }" >{{ finalValue }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <button class="col btn btn-outline-dark mr-1" data-toggle="modal" [attr.data-target]="'#'+player.id">Check Record</button>
+          <button class="col btn btn-outline-danger"  (click)="onDeletePlayer()">Delete Player</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" [attr.id]="player.id" tabindex="-1" role="dialog" aria-labelledby="playerRecordLabel" aria-hidden="true">
+  <!-- <app-record-modal [player]="modalPlayer"></app-record-modal> -->
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="playerRecordLabel">{{ player.name }}'s Buyin Record</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row mb-2">
+            <div class="col">Total Buyin Times</div>
+            <div class="col">{{ player.buyin}}</div>
+          </div>
+          <div class="row" *ngFor="let buyinRecord of player.record">
+            <div class="col">{{ buyinRecord.split("@")[0] }}</div>
+            <div class="col">{{ buyinRecord.split("@")[1] }}</div>
+          </div>
+        </div>
+        <div class="modal-footer mt-4">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

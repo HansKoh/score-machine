@@ -1,0 +1,22 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.playerCardContainer {
+
+}
+.playerCard:hover{
+  box-shadow: 0px 7px 20px rgb(0 0 0 / 45%);
+}
+
+.won {
+  background-color: #1BDA84;
+  color: white
+}
+
+.lose {
+  background-color: #FE5F55;
+  color: white
+}

@@ -1,0 +1,19 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.addPlayer {
+  background-color: #343A40;
+  color: white;
+}
+
+.start {
+  justify-content: center;
+}
+
+.started {
+  justify-content: flex-end;
+  padding-right: 15px;
+}
