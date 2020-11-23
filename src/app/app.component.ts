@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { AuthService } from './games/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,18 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ScoreMachine';
+  constructor(private authService: AuthService) {
+    
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event) {
+    this.authService.onClose();
+  }
+
+  @HostListener('window:unload', ['$event'])
+  unloadHandler(event) {
+    this.authService.onClose();
+  }
+  
 }

@@ -1,25 +1,26 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Player } from '../model/player';
 import { map, tap } from 'rxjs/operators';
+import { Chip } from '../model/chip';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TexasService {
   
-  
   // Data
   
   public players = [];
+  public chip:Chip;
   private firebaseURL = 'https://score-machine-a7750.firebaseio.com/';
   
   // Subjects
   public playersChanged = new Subject<void>();
+  public chipChanged = new Subject<void>();
   
-  constructor(private http: HttpClient) { 
-  }
+  constructor(private http: HttpClient) {}
   
   // Methods
 
@@ -73,4 +74,28 @@ export class TexasService {
         tap(() => this.playersChanged.next())
       );
   }
+
+  onFetchChip() {
+    return this.http
+      .get<{ [key:string]: Chip }>(this.firebaseURL + 'chip.json')
+      .pipe(
+        map(responseData => {
+          this.chip = responseData["-MMnR9l6PnlP5I7Z41Oe"];
+          return responseData["-MMnR9l6PnlP5I7Z41Oe"];
+        })
+      );
+  }
+
+  onUpdateChip(chip: Chip) {
+    return this.http
+      .put(this.firebaseURL + 'chip/-MMnR9l6PnlP5I7Z41Oe.json', chip)
+      .pipe(
+        tap(() => this.chipChanged.next())
+      );
+  }
+
+  getChipInfo() {
+    return this.chip;
+  }
+
 }

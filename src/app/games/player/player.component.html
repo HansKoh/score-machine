@@ -1,36 +1,38 @@
 <div class="col-md playerCardContainer mb-4">
   <div class="card playerCard" style="width: 21rem;">
-    <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrXJnNUPosezMcHk1fHYYYl1X4or2x0a6Wog&usqp=CAU" alt="Card image cap">
+    <!-- <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrXJnNUPosezMcHk1fHYYYl1X4or2x0a6Wog&usqp=CAU" alt="Card image cap"> -->
     <div class="card-body p-2">
       <h5 class="card-title text-center">{{ player.name }}</h5>
       <hr/>
       <div class="container text-left">
         <div class="row mb-3">
-          <div class="col">Start</div>
-          <div class="col text-center">{{ totalChips }}</div>
+          <div class="col-5">Start</div>
+          <div class="col-7 form-control text-center">{{ chip.totalChips }}</div>
         </div>
         <div class="row mb-3">
-          <div class="col">Buyin</div>
-          <div class="col">
+          <div class="col-5">Buyin</div>
+          <div class="col-7">
             <div class="row">
-              <button type="button" class="col btn btn-outline-dark" style="border-radius: 50%;" (click)="onDecreaseBuyin()">-</button>
-              <div class="col-5 form-control text-center ml-1 mr-1">{{ player.buyin }}</div>
-              <button type="button" class=" col btn btn-outline-dark" style="border-radius: 50%;" (click)="onIncreaseBuyin()">+</button>
+              <button type="button" class="col btn btn-outline-dark" style="border-radius: 50%; font-weight: bolder;" (click)="onDecreaseBuyin()" *ngIf="isAuthenticated">-</button>
+              <div class="col-6 form-control text-center ml-1 mr-1" *ngIf="isAuthenticated">{{ player.buyin }}</div>
+              <div class="col form-control text-center" *ngIf="!isAuthenticated">{{ player.buyin }}</div>
+              <button type="button" class=" col btn btn-outline-dark" style="border-radius: 50%; font-weight: bolder;" (click)="onIncreaseBuyin()" *ngIf="isAuthenticated">+</button>
             </div>
           </div>
         </div>
         <div class="row mb-3">
-          <div class="col">Remaining</div>
-          <div class="col">
+          <div class="col-5">Remaining</div>
+          <div class="col-7">
             <div class="row">
-              <input type="number" class="col form-control text-center mr-1" [(ngModel)]="remaining" (keyup)="onUpdateFinal()"/>
-              <button class="col btn btn-outline-dark" (click)="onBill()">Bill</button>
+              <input type="number" class="col form-control text-center mr-1" [(ngModel)]="remaining" (keyup)="onUpdateFinal()" *ngIf="isAuthenticated"/>
+              <div class="col form-control text-center" *ngIf="!isAuthenticated">{{ remaining }}</div>
+              <button class="col btn btn-outline-dark" (click)="onBill()" *ngIf="isAuthenticated">Bill</button>
             </div>
           </div>
         </div>
         <div class="row mb-3">
-          <div class="col">Final</div>
-          <div class="col">
+          <div class="col-5">Final</div>
+          <div class="col-7">
             <div class="row">
               <div class="col form-control text-center mr-1">{{ finalChipValue }}</div>
               <div class="col form-control text-center" [ngClass]="{'won':hasWon > 0,'lose':hasWon < 0 }" >{{ finalValue }}</div>
@@ -38,8 +40,9 @@
           </div>
         </div>
         <div class="row">
-          <button class="col btn btn-outline-dark mr-1" data-toggle="modal" [attr.data-target]="'#'+player.id">Check Record</button>
-          <button class="col btn btn-outline-danger"  (click)="onDeletePlayer()">Delete Player</button>
+          <button class="col btn btn-outline-dark mr-1" data-toggle="modal" [attr.data-target]="'#'+player.id" *ngIf="isAuthenticated">Check Record</button>
+          <button class="col btn btn-outline-dark" data-toggle="modal" [attr.data-target]="'#'+player.id" *ngIf="!isAuthenticated">Check Record</button>
+          <button class="col btn btn-outline-danger"  (click)="onDeletePlayer()" [disabled]="!isAuthenticated" *ngIf="isAuthenticated">Delete Player</button>
         </div>
       </div>
     </div>
@@ -47,12 +50,11 @@
 </div>
 
 <div class="modal fade" [attr.id]="player.id" tabindex="-1" role="dialog" aria-labelledby="playerRecordLabel" aria-hidden="true">
-  <!-- <app-record-modal [player]="modalPlayer"></app-record-modal> -->
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="playerRecordLabel">{{ player.name }}'s Buyin Record</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal [disabled]="!isAuthenticated">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

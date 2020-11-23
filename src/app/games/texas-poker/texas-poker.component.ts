@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Chip } from '../model/chip';
 import { Player } from '../model/player';
+import { AuthService } from '../services/auth.service';
 import { TexasService } from '../services/texas.service';
 
 @Component({
@@ -12,25 +14,46 @@ import { TexasService } from '../services/texas.service';
 export class TexasPokerComponent implements OnInit, OnDestroy {
 
   players = [];
+  chip:Chip = {
+    totalChipValue: 0,
+    totalChips: 0,
+    singleChipValue: "Invalid"
+  };
   totalChipValue:number;
   totalChips:number;
   singleChipValue:any;
+  
+  isAuthenticated:boolean = false;
 
   playersChangedSubscription: Subscription;
+  chipChangedSubscription: Subscription;
+  authSubscription: Subscription;
 
-  constructor(private texasService: TexasService) { }
+
+  constructor(private texasService: TexasService, private authService: AuthService) { 
+  }
 
   ngOnInit(): void {
-    // if (this.totalChipValue === 0 || this.totalChips === 0) {
-    //   this.singleChipValue = "Invalid";
-    // }
-    if (!(this.totalChipValue > 0 && this.totalChips > 0 && this.totalChipValue != null && this.totalChips != null)) {
-      this.singleChipValue = "Invalid";
+    this.isAuthenticated = this.authService.getStatus();
+    this.authSubscription = this.authService.authenticationChanged.subscribe(()=>{
+      this.isAuthenticated = this.authService.getStatus();
+    });
+
+    this.texasService.onFetchChip().subscribe((chip) => this.chip = chip);
+    console.log(this.chip);
+
+    if (!(this.chip.totalChipValue > 0 && this.chip.totalChips > 0 && this.chip.totalChipValue != null && this.chip.totalChips != null)) {
+      this.chip.singleChipValue = "Invalid";
     }
     this.getAllPlayers();
     this.playersChangedSubscription = this.texasService.playersChanged.subscribe(() => {
       this.getAllPlayers();
     });
+  }
+  
+  ngOnDestroy(): void {
+    this.playersChangedSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
   }
   
   private getAllPlayers() {
@@ -40,9 +63,9 @@ export class TexasPokerComponent implements OnInit, OnDestroy {
   onClearAllPlayers() {
     this.texasService.onDeleteAllPlayers().subscribe((res)=>console.log(res));
     this.getAllPlayers();
-    this.totalChipValue = 0;
-    this.totalChips = 0;
-    this.singleChipValue = "Invalid";
+    this.chip.totalChipValue = 0;
+    this.chip.totalChips = 0;
+    this.chip.singleChipValue = "Invalid";
   }
 
   onSubmit(form: NgForm) {
@@ -60,14 +83,20 @@ export class TexasPokerComponent implements OnInit, OnDestroy {
   }
 
   updateSingleChipValue() {
-    if (this.totalChipValue > 0 && this.totalChips > 0 && this.totalChipValue != null && this.totalChips != null){
-      this.singleChipValue = (this.totalChipValue / this.totalChips).toFixed(2);
+    if (this.chip.totalChipValue > 0 && this.chip.totalChips > 0 && this.chip.totalChipValue != null && this.chip.totalChips != null){
+      this.chip.singleChipValue = (this.chip.totalChipValue / this.chip.totalChips).toFixed(2);
     } else {
-      this.singleChipValue = "Invalid";
+      this.chip.singleChipValue = "Invalid";
     }
   }
 
-  ngOnDestroy(): void {
-    this.playersChangedSubscription.unsubscribe();
+  onUpdateChipInfo(){
+    const newChipInfo = {
+      totalChipValue: this.chip.totalChipValue,
+      totalChips: this.chip.totalChips,
+      singleChipValue: this.chip.singleChipValue
+    };
+    this.texasService.onUpdateChip(newChipInfo).subscribe(res=>console.log(res));
   }
+
 }

@@ -1,11 +1,34 @@
 <div class="container">
+
+  <div class="row" *ngIf="!isAuthenticated && !players.length">
+    <div class="col">
+      <h4 class="text-center">Please log in to start a game</h4>
+    </div>
+  </div>
+  <div class="row">
+    
+    <div class="col-lg mb-1">
+      <button *ngIf="players.length != 0 && isAuthenticated" type="button" class="btn btn-success btn-block" (click)="onUpdateChipInfo()">Save Chip Info</button>
+    </div>
+    <div class="col-lg mb-1">
+      <button *ngIf="isAuthenticated" type="button" class="btn btn-success addPlayer btn-block" data-toggle="modal" data-target="#addPlayer" data-whatever="@mdo">
+        {{ players.length === 0 ? "Start A Game" : "Add Player" }}
+      </button>
+    </div>
+    <div class="col-lg mb-1">
+      <button *ngIf="players.length != 0 && isAuthenticated" class="btn btn-danger btn-block" (click)="onClearAllPlayers()">Clear All Players</button>
+    </div>
+  </div>
+
+  <hr *ngIf="players.length != 0 && isAuthenticated"/>
+
   <div class="row" *ngIf="players.length != 0">
     <div class="col-lg">
       <div class="input-group input-group-lg mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-lg">Total Chip Value</span>
         </div>
-        <input type="number" class="form-control text-center" aria-label="Total Chip Value" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="totalChipValue" (keyup)="updateSingleChipValue()"/>
+        <input type="number" class="form-control text-center" aria-label="Total Chip Value" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="chip.totalChipValue" (keyup)="updateSingleChipValue()"/>
       </div>
     </div>
     <div class="col-lg">
@@ -13,7 +36,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-lg">Total Chips</span>
         </div>
-        <input type="number" class="form-control text-center" aria-label="Total Chips" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="totalChips" (keyup)="updateSingleChipValue()"/>
+        <input type="number" class="form-control text-center" aria-label="Total Chips" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="chip.totalChips" (keyup)="updateSingleChipValue()"/>
       </div>
     </div>
     <div class="col-lg">
@@ -21,33 +44,18 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-lg">Single Chip Value</span>
         </div>
-        <div class="form-control text-center" aria-label="Single Chip Value" aria-describedby="inputGroup-sizing-lg">{{ singleChipValue }}</div>
+        <div class="form-control text-center" aria-label="Single Chip Value" aria-describedby="inputGroup-sizing-lg">{{ chip.singleChipValue }}</div>
       </div>
     </div>
   </div>
   
-  <hr/>
-
-  <div class="row text-center" [ngClass]="{'start': players.length === 0, 'started': players.length>0}">
-    <div>
-      <button type="button" class="btn btn-success addPlayer" data-toggle="modal" data-target="#addPlayer" data-whatever="@mdo">
-        {{ players.length === 0 ? "Start the Game" : "Add Player" }}
-      </button>
-    </div>
-    &nbsp;
-    <div *ngIf="players.length != 0">
-      <button class="btn btn-danger" (click)="onClearAllPlayers()">Clear Players</button>
-    </div>
-  </div>
+  
 
   <hr/>
 
   <div class="row" style="justify-content: space-around;">
     <app-player *ngFor="let player of players; let i=index" 
-                [player]="player"
-                [totalChipValue]="totalChipValue"
-                [totalChips]="totalChips"
-                [singleChipValue]="singleChipValue">
+                [player]="player">
     </app-player>
   </div>
 

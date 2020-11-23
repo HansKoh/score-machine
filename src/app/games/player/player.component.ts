@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Chip } from '../model/chip';
 import { Player } from '../model/player';
+import { AuthService } from '../services/auth.service';
 import { TexasService } from '../services/texas.service';
 
 @Component({
@@ -11,32 +14,57 @@ export class PlayerComponent implements OnInit {
 
   @Input() public player:Player;
 
-  @Input() public totalChipValue:number;
+  // @Input() public totalChipValue:number;
 
-  @Input() public totalChips:number;
+  // @Input() public totalChips:number;
 
-  @Input() public singleChipValue:any;
+  // @Input() public singleChipValue:any;
 
   remaining: number;
   finalChipValue:any = "";
   finalValue:any = "";
   hasWon:number = 0;
 
-  constructor(private texasService: TexasService) { 
+  chip:Chip = {
+    totalChipValue: 0,
+    totalChips: 0,
+    singleChipValue: "Invalid"
+  };
+
+  isAuthenticated:boolean = false;
+  authSubscription: Subscription;
+  chipChangedSubscription: Subscription;
+
+  constructor(private texasService: TexasService, private authService: AuthService) { 
   }
 
   ngOnInit(): void {
+    this.isAuthenticated = this.authService.getStatus();
+    this.authSubscription = this.authService.authenticationChanged.subscribe(()=>{
+      this.isAuthenticated = this.authService.getStatus();
+    });
+
+    this.chip = this.texasService.getChipInfo();
+    this.chipChangedSubscription = this.texasService.chipChanged.subscribe(() => {
+      this.chip = this.texasService.getChipInfo();
+      // this.onUpdateFinal();
+    });
+
     this.remaining = this.player.remaining;
     this.onUpdateFinal();
   }
 
+  ngOnDestroy(): void {
+    this.authSubscription.unsubscribe();
+  }
+
   onUpdatePlayer() {
     this.texasService.onUpdatePlayer(this.player).subscribe((res)=>console.log("after update single player", res));
+    this.authService.onUpdateAuth().subscribe();
   }
 
   onDeletePlayer() {
     this.texasService.onDeleteSinglePlayer(this.player.id).subscribe((res)=>console.log("after delete single player", res));
-    console.log(this.player.id);
   }
 
   onIncreaseBuyin() {
@@ -56,9 +84,10 @@ export class PlayerComponent implements OnInit {
   }
 
   onUpdateFinal(){
-    if (this.singleChipValue != "Invalid") {
-      this.finalChipValue = this.remaining - this.totalChips * (1 + this.player.buyin);
-      this.finalValue = (this.finalChipValue * this.singleChipValue).toFixed(2);
+    console.log("onUpdateFinal is called: ", this.chip);
+    if (this.chip.singleChipValue != "Invalid") {
+      this.finalChipValue = this.player.remaining - this.chip.totalChips * (1 + this.player.buyin);
+      this.finalValue = (this.finalChipValue * this.chip.singleChipValue).toFixed(2);
       if (this.finalChipValue > 0) {
         this.hasWon = 1;
       } else if (this.finalChipValue <0){
@@ -74,5 +103,9 @@ export class PlayerComponent implements OnInit {
     console.log(this.player.remaining);
     this.onUpdatePlayer();
     this.onUpdateFinal();
+  }
+
+  private getChipInfo() {
+    this.texasService.onFetchChip().subscribe((chip) => this.chip = chip);
   }
 }
