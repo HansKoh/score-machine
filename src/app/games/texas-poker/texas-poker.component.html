@@ -26,7 +26,7 @@
     <div class="col-lg">
       <div class="input-group input-group-lg mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-lg">Total Chip Value</span>
+          <span class="input-group-text" id="inputGroup-sizing-lg" style="min-width: 12rem;">Total Chip Value</span>
         </div>
         <input type="number" class="form-control text-center" aria-label="Total Chip Value" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="chip.totalChipValue" (keyup)="updateSingleChipValue()"/>
       </div>
@@ -34,7 +34,7 @@
     <div class="col-lg">
       <div class="input-group input-group-lg mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-lg">Total Chips</span>
+          <span class="input-group-text" id="inputGroup-sizing-lg" style="min-width: 12rem;">Total Chips</span>
         </div>
         <input type="number" class="form-control text-center" aria-label="Total Chips" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="chip.totalChips" (keyup)="updateSingleChipValue()"/>
       </div>
@@ -42,7 +42,7 @@
     <div class="col-lg">
       <div class="input-group input-group-lg mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-lg">Single Chip Value</span>
+          <span class="input-group-text" id="inputGroup-sizing-lg" style="min-width: 12rem;">Single Chip Value</span>
         </div>
         <div class="form-control text-center" aria-label="Single Chip Value" aria-describedby="inputGroup-sizing-lg">{{ chip.singleChipValue }}</div>
       </div>
@@ -58,12 +58,6 @@
                 [player]="player">
     </app-player>
   </div>
-
-  <!-- <hr/>
-  <div class="row">
-    <div class="col">Final Balance</div>
-    <div class="col">{{  }}</div>
-  </div> -->
 
   <!-- Modal -->
   <div class="modal fade" id="addPlayer" tabindex="-1" role="dialog" aria-labelledby="addPlayerLabel" aria-hidden="true">

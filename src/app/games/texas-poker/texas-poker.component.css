@@ -6,5 +6,6 @@ input::-webkit-inner-spin-button {
 
 .addPlayer {
   background-color: #343A40;
+  border: #343A40;
   color: white;
 }
