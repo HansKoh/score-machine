@@ -10,8 +10,8 @@ import { User } from '../model/user';
 export class AuthService {
 
   user: User = {
-    name: "a",
-    password: "a"
+    name: "august",
+    password: "57016308"
   };
 
   public isAuthenticated:boolean = false;
