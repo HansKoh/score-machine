@@ -1,5 +1,5 @@
 <div class="col-md playerCardContainer mb-4">
-  <div class="card playerCard" style="width: 21rem;">
+  <div class="card playerCard" style="width: 17.5rem;">
     <!-- <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrXJnNUPosezMcHk1fHYYYl1X4or2x0a6Wog&usqp=CAU" alt="Card image cap"> -->
     <div class="card-body p-2">
       <h5 class="card-title text-center">{{ player.name }}</h5>
@@ -13,10 +13,10 @@
           <div class="col-5">Buyin</div>
           <div class="col-7">
             <div class="row">
-              <button type="button" class="col btn btn-outline-dark" style="border-radius: 50%; font-weight: bolder;" (click)="onDecreaseBuyin()" *ngIf="isAuthenticated">-</button>
-              <div class="col-6 form-control text-center ml-1 mr-1" *ngIf="isAuthenticated">{{ player.buyin }}</div>
+              <button type="button" class="col btn btn-outline-dark" style="border-radius: 10%; font-weight: bolder;" (click)="onDecreaseBuyin()" *ngIf="isAuthenticated">-</button>
+              <div class="col-5 form-control text-center ml-1 mr-1" *ngIf="isAuthenticated">{{ player.buyin }}</div>
               <div class="col form-control text-center" *ngIf="!isAuthenticated">{{ player.buyin }}</div>
-              <button type="button" class=" col btn btn-outline-dark" style="border-radius: 50%; font-weight: bolder;" (click)="onIncreaseBuyin()" *ngIf="isAuthenticated">+</button>
+              <button type="button" class=" col btn btn-outline-dark" style="border-radius: 10%; font-weight: bolder;" (click)="onIncreaseBuyin()" *ngIf="isAuthenticated">+</button>
             </div>
           </div>
         </div>

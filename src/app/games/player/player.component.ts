@@ -100,9 +100,9 @@ export class PlayerComponent implements OnInit {
 
   onBill() {
     this.player.remaining = this.remaining;
-    console.log(this.player.remaining);
-    this.onUpdatePlayer();
     this.onUpdateFinal();
+    this.player.final = this.finalValue
+    this.onUpdatePlayer();
   }
 
   private getChipInfo() {

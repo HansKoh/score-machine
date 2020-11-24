@@ -28,7 +28,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-lg" style="min-width: 12rem;">Total Chip Value</span>
         </div>
-        <input type="number" class="form-control text-center" aria-label="Total Chip Value" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="chip.totalChipValue" (keyup)="updateSingleChipValue()"/>
+        <input *ngIf="isAuthenticated" type="number" class="form-control text-center" aria-label="Total Chip Value" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="chip.totalChipValue" (keyup)="updateSingleChipValue()"/>
+        <div *ngIf="!isAuthenticated" class="form-control text-center" aria-label="Total Chip Value" aria-describedby="inputGroup-sizing-lg">{{ chip.totalChipValue }}</div>
       </div>
     </div>
     <div class="col-lg">
@@ -36,7 +37,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-lg" style="min-width: 12rem;">Total Chips</span>
         </div>
-        <input type="number" class="form-control text-center" aria-label="Total Chips" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="chip.totalChips" (keyup)="updateSingleChipValue()"/>
+        <input *ngIf="isAuthenticated" type="number" class="form-control text-center" aria-label="Total Chips" aria-describedby="inputGroup-sizing-lg" [(ngModel)]="chip.totalChips" (keyup)="updateSingleChipValue()"/>
+        <div *ngIf="!isAuthenticated" class="form-control text-center" aria-label="Total Chips" aria-describedby="inputGroup-sizing-lg">{{ chip.totalChips }}</div>
       </div>
     </div>
     <div class="col-lg">
@@ -58,6 +60,19 @@
                 [player]="player">
     </app-player>
   </div>
+
+  <hr *ngIf="players.length != 0"/>
+  <div class="row" *ngIf="players.length != 0 && isAuthenticated">
+    <div class="col-lg">
+      <div class="input-group input-group-lg mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-lg" style="min-width: 10rem;" (click)="calculateFinalBalance()" [ngClass]="{'correct':finalBalance === 0,'wrong':finalBalance != 0 }">Final Balance</span>
+        </div>
+        <div class="form-control text-center" aria-label="Final Balance" aria-describedby="inputGroup-sizing-lg">{{ finalBalance }}</div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Modal -->
   <div class="modal fade" id="addPlayer" tabindex="-1" role="dialog" aria-labelledby="addPlayerLabel" aria-hidden="true">

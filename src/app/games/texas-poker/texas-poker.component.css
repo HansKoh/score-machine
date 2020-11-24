@@ -9,3 +9,13 @@ input::-webkit-inner-spin-button {
   border: #343A40;
   color: white;
 }
+
+.correct {
+  background-color: #1BDA84;
+  color: white
+}
+
+.wrong {
+  background-color: #FE5F55;
+  color: white
+}

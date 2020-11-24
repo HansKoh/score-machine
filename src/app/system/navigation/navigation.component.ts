@@ -17,6 +17,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.onFetchAuth();
     this.isAuthenticated = this.authService.getStatus();
     this.authSubscription = this.authService.authenticationChanged.subscribe(()=>{
       this.isAuthenticated = this.authService.getStatus();
