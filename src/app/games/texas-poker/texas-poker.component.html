@@ -8,7 +8,7 @@
   <div class="row">
     
     <div class="col-lg mb-1">
-      <button *ngIf="players.length != 0 && isAuthenticated" type="button" class="btn btn-success btn-block" (click)="onUpdateChipInfo()">Save Chip Info</button>
+      <button *ngIf="players.length != 0 && isAuthenticated" type="button" class="btn btn-success btn-block" (click)="onUpdateChipInfo()" [disabled]="chip.singleChipValue === 'Invalid' ">Save Chip Info</button>
     </div>
     <div class="col-lg mb-1">
       <button *ngIf="isAuthenticated" type="button" class="btn btn-success addPlayer btn-block" data-toggle="modal" data-target="#addPlayer" data-whatever="@mdo">
@@ -63,14 +63,25 @@
 
   <hr *ngIf="players.length != 0"/>
   <div class="row" *ngIf="players.length != 0 && isAuthenticated">
-    <div class="col-lg">
-      <div class="input-group input-group-lg mb-3">
+    <div class="col">
+      <button class="btn btn-primary btn-dark btn-block" 
+              [ngClass]="{'correct':finalBalance === 0,'wrong':finalBalance > 0 || finalBalance < 0 }" 
+              (click)="calculateFinalBalance()"
+      >Calculate Balance {{ finalBalance != null ? ':': ''}} {{ finalBalance }}
+      </button>
+    </div>
+    <!-- <div class="col-md"> -->
+      <!-- <div class="input-group input-group-lg mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-lg" style="min-width: 10rem;" (click)="calculateFinalBalance()" [ngClass]="{'correct':finalBalance === 0,'wrong':finalBalance != 0 }">Final Balance</span>
         </div>
         <div class="form-control text-center" aria-label="Final Balance" aria-describedby="inputGroup-sizing-lg">{{ finalBalance }}</div>
-      </div>
-    </div>
+      </div> -->
+      <!-- <button class="btn btn-primary btn-dark btn-block w-100" (click)="calculateFinalBalance()">Calculate Balance</button>
+    </div> -->
+    <!-- <div class="col">
+      <div class="form-control text-center" aria-label="Final Balance" aria-describedby="inputGroup-sizing-lg" [ngClass]="{'correct':finalBalance === 0,'wrong':finalBalance != 0 }">{{ finalBalance }}</div>
+    </div> -->
   </div>
 
 

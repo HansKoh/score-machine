@@ -10,13 +10,13 @@ import { User } from '../model/user';
 export class AuthService {
 
   user: User = {
-    name: "august",
+    name: "August",
     password: "57016308"
   };
 
   public isAuthenticated:boolean = false;
   public authenticationChanged = new Subject<void>();
-  public firebaseURL = 'https://score-machine-a7750.firebaseio.com/auth/-MMk_b9vXBUToncncTrj.json';
+  // public firebaseURL = 'https://score-machine-a7750.firebaseio.com/auth/-MMk_b9vXBUToncncTrj.json';
 
   constructor(private http: HttpClient) { }
 
@@ -36,28 +36,28 @@ export class AuthService {
     if (this.isAuthenticated) {
       this.isAuthenticated = false;
       this.authenticationChanged.next();
-      this.onUpdateAuth().subscribe(res=>console.log(res));
+      // this.onUpdateAuth().subscribe(res=>console.log(res));
     }
   }
 
-  onUpdateAuth() {
-    return this.http
-      .put(this.firebaseURL, {"isAuthenticated": this.isAuthenticated})
-      .pipe(
-        tap(() => this.authenticationChanged.next())
-      );
-  }
+  // onUpdateAuth() {
+  //   return this.http
+  //     .put(this.firebaseURL, {"isAuthenticated": this.isAuthenticated})
+  //     .pipe(
+  //       tap(() => this.authenticationChanged.next())
+  //     );
+  // }
 
-  onFetchAuth() {
-    this.http
-    .get('https://score-machine-a7750.firebaseio.com/auth.json').subscribe(responseData => {
-      this.isAuthenticated = <boolean>responseData["-MMk_b9vXBUToncncTrj"].isAuthenticated;
-      this.authenticationChanged.next();
-      console.log(this.isAuthenticated);
-    });
-  }
+  // onFetchAuth() {
+  //   this.http
+  //   .get('https://score-machine-a7750.firebaseio.com/auth.json').subscribe(responseData => {
+  //     this.isAuthenticated = <boolean>responseData["-MMk_b9vXBUToncncTrj"].isAuthenticated;
+  //     this.authenticationChanged.next();
+  //     console.log(this.isAuthenticated);
+  //   });
+  // }
 
-  onClose(){
-    this.http.put(this.firebaseURL, {"isAuthenticated": false}).subscribe(res=>console.log(res));
-  }
+  // onClose(){
+  //   this.http.put(this.firebaseURL, {"isAuthenticated": false}).subscribe(res=>console.log(res));
+  // }
 }

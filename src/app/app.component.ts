@@ -12,14 +12,14 @@ export class AppComponent {
     
   }
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeunloadHandler(event) {
-    this.authService.onClose();
-  }
+  // @HostListener('window:beforeunload', ['$event'])
+  // beforeunloadHandler(event) {
+  //   this.authService.onClose();
+  // }
 
-  @HostListener('window:unload', ['$event'])
-  unloadHandler(event) {
-    this.authService.onClose();
-  }
+  // @HostListener('window:unload', ['$event'])
+  // unloadHandler(event) {
+  //   this.authService.onClose();
+  // }
   
 }

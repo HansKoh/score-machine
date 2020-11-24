@@ -60,7 +60,7 @@ export class PlayerComponent implements OnInit {
 
   onUpdatePlayer() {
     this.texasService.onUpdatePlayer(this.player).subscribe((res)=>console.log("after update single player", res));
-    this.authService.onUpdateAuth().subscribe();
+    // this.authService.onUpdateAuth().subscribe();
   }
 
   onDeletePlayer() {

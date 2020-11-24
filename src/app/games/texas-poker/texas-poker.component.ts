@@ -22,7 +22,7 @@ export class TexasPokerComponent implements OnInit, OnDestroy {
   totalChipValue:number;
   totalChips:number;
   singleChipValue:any;
-  finalBalance:number = 0;
+  finalBalance:number = null;
   
   isAuthenticated:boolean = false;
 
@@ -50,8 +50,6 @@ export class TexasPokerComponent implements OnInit, OnDestroy {
     this.playersChangedSubscription = this.texasService.playersChanged.subscribe(() => {
       this.getAllPlayers();
     });
-
-    this.calculateFinalBalance();
   }
   
   ngOnDestroy(): void {

@@ -12,10 +12,12 @@ input::-webkit-inner-spin-button {
 
 .correct {
   background-color: #1BDA84;
+  border: #1BDA84;
   color: white
 }
 
 .wrong {
   background-color: #FE5F55;
+  border: #FE5F55;
   color: white
 }

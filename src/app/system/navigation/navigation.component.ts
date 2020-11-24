@@ -17,11 +17,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.onFetchAuth();
+    // this.authService.onFetchAuth();
     this.isAuthenticated = this.authService.getStatus();
     this.authSubscription = this.authService.authenticationChanged.subscribe(()=>{
       this.isAuthenticated = this.authService.getStatus();
-      console.log(this.isAuthenticated);
     });
   }
 
@@ -31,7 +30,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   
   onSubmit(form: NgForm){
     this.authService.onLogin(form.value.name, form.value.password);
-    this.authService.onUpdateAuth().subscribe(res=>console.log(res));
+    // this.authService.onUpdateAuth().subscribe(res=>console.log(res));
   }
 
   onLogout() {
