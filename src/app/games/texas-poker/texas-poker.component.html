@@ -70,18 +70,6 @@
       >Calculate Balance {{ finalBalance != null ? ':': ''}} {{ finalBalance }}
       </button>
     </div>
-    <!-- <div class="col-md"> -->
-      <!-- <div class="input-group input-group-lg mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-lg" style="min-width: 10rem;" (click)="calculateFinalBalance()" [ngClass]="{'correct':finalBalance === 0,'wrong':finalBalance != 0 }">Final Balance</span>
-        </div>
-        <div class="form-control text-center" aria-label="Final Balance" aria-describedby="inputGroup-sizing-lg">{{ finalBalance }}</div>
-      </div> -->
-      <!-- <button class="btn btn-primary btn-dark btn-block w-100" (click)="calculateFinalBalance()">Calculate Balance</button>
-    </div> -->
-    <!-- <div class="col">
-      <div class="form-control text-center" aria-label="Final Balance" aria-describedby="inputGroup-sizing-lg" [ngClass]="{'correct':finalBalance === 0,'wrong':finalBalance != 0 }">{{ finalBalance }}</div>
-    </div> -->
   </div>
 
 
@@ -89,21 +77,31 @@
   <div class="modal fade" id="addPlayer" tabindex="-1" role="dialog" aria-labelledby="addPlayerLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addPlayerLabel">New Player Information</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal>
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-header text-center">
+          <h5 class="modal-title m-auto" id="addPlayerLabel">New Player Information
+            <button type="button" class="close" style="position: absolute; right: 15px;"(click)="resetForm()" data-dismiss="modal" aria-label="Close" #closeModal>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </h5>
         </div>
         <div class="modal-body">
-          <form #f="ngForm">
+          <form [formGroup]="newPlayerForm" (submit)="onReactiveSubmit(newPlayerForm.value)">
             <div class="form-group">
-              <label for="player-name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" id="player-name" name="name" ngModel required>
+              <input type="text" class="form-control text-center" id="player-name" formControlName="name" placeholder="Enter Your Name">
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onSubmit(f)" [disabled]="!f.valid">Add</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <div class="form-group">
+              <label for="player-image" class="col-form-label btn btn-outline-dark btn-block">
+                Select Profile Image
+                <input #imageInput type="file" accept="image/*" class="form-control" id="player-image" formControlName="imageUrl"  (change)="showPreview($event)" (click)="imageInput.value = null">
+              </label>
+            </div>
+            <div class="preview-image-container mb-3">
+              <img *ngIf="selectedImage" class="preview-image" [src]="imageSrc"(click)="imageInput.click()">
+            </div>
+            <!-- <div class="alert alert-danger" role="alert" *ngIf="isSubmitted && formControls.name.errors?.required">Please Entry Your Name</div> -->
+            <div class="modal-footer form-group">
+              <button type="submit" class="btn btn-success" [disabled]="formControls.name.errors?.required || formControls.imageUrl.errors?.required">Add</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Cancel</button>
             </div>
           </form>
         </div>

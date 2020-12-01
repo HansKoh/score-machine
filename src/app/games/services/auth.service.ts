@@ -13,8 +13,9 @@ export class AuthService {
     name: "August",
     password: "57016308"
   };
+  // public isAuthenticated:boolean = true; // When in debugging
 
-  public isAuthenticated:boolean = false;
+  public isAuthenticated:boolean = false; // When in production
   public authenticationChanged = new Subject<void>();
   // public firebaseURL = 'https://score-machine-a7750.firebaseio.com/auth/-MMk_b9vXBUToncncTrj.json';
 

@@ -8,6 +8,7 @@ export class Player {
     public buyin: number,
     public remaining: number,
     public final: number,
-    public record: Array<string> = []
+    public record: Array<string> = [],
+    public imageUrl: String
   ) {}
 }

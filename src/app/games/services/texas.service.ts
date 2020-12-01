@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { Player } from '../model/player';
 import { map, tap } from 'rxjs/operators';
 import { Chip } from '../model/chip';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database'
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +22,22 @@ export class TexasService {
   public playersChanged = new Subject<void>();
   public chipChanged = new Subject<void>();
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private firestore: AngularFirestore) {}
   
-  // Methods
+  // Implementing Image Upload Open
+  playersList: AngularFireList<any>;
+
+  getAllPlayers() {
+    return this.firestore.collection('players').snapshotChanges();
+  }
+
+  onAddNewPlayer(newPlayer) {
+    console.log('newplayer: ', newPlayer);
+    return this.firestore.collection('players').add(newPlayer);
+  }
+
+
+  // Implementing Image Upload Close
 
   // Http Methods
   

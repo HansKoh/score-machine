@@ -21,3 +21,16 @@ input::-webkit-inner-spin-button {
   border: #FE5F55;
   color: white
 }
+
+input[type="file"] {
+  display: none;
+}
+
+.preview-image-container {
+  text-align: center;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+}
