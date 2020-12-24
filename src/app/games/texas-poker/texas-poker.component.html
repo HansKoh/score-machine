@@ -18,6 +18,9 @@
     <div class="col-lg mb-1">
       <button *ngIf="players.length != 0 && isAuthenticated" class="btn btn-danger btn-block" (click)="onClearAllPlayers()">Clear All Players</button>
     </div>
+    <div class="col-lg mb-1">
+      <button *ngIf="isAuthenticated" class="btn btn-primary btn-block" (click)="downloadPDF()">Print</button>
+    </div>
   </div>
 
   <hr *ngIf="players.length != 0 && isAuthenticated"/>
@@ -50,12 +53,10 @@
       </div>
     </div>
   </div>
-  
-  
 
   <hr/>
 
-  <div class="row" style="justify-content: space-around;">
+  <div class="row" style="justify-content: space-around;" id="allPlayersContainer">
     <app-player *ngFor="let player of players; let i=index" 
                 [player]="player">
     </app-player>

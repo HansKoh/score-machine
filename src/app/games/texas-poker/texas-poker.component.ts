@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+declare var jsPDF: any;
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Chip } from '../model/chip';
 import { Player } from '../model/player';
 import { AuthService } from '../services/auth.service';
 import { TexasService } from '../services/texas.service';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-texas-poker',
@@ -14,6 +16,19 @@ import { TexasService } from '../services/texas.service';
   styleUrls: ['./texas-poker.component.css']
 })
 export class TexasPokerComponent implements OnInit, OnDestroy {
+
+  public downloadPDF():void {
+    var data = document.getElementById('allPlayersContainer');
+    html2canvas(data).then(canvas => {
+      var imgWidth = 108;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png')
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      var position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdf.save('newPDF.pdf');
+    });
+  }
 
   players = [];
   chip:Chip = {

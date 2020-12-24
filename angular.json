@@ -26,7 +26,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jspdf/dist/jspdf.es.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -89,7 +91,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jspdf/dist/jspdf.es.min.js"
+            ]
           }
         },
         "lint": {

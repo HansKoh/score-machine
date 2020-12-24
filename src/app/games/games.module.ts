@@ -24,7 +24,6 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     AngularFireDatabaseModule
-    
   ],
   exports: [
     TexasPokerComponent,
